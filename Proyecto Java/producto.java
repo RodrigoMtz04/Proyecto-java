@@ -6,4 +6,8 @@ public class producto implements Serializable{
     Private int cantidad;
     Private String descripcion;
 
+    public producto(){
+        
+    }
+
 }
