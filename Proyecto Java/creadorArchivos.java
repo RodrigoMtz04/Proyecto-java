@@ -23,9 +23,9 @@ public class creadorArchivos {
     }
 
     public void crearArchivoVentas() {
-        File Alumnos = new File("Ventas.txt");
+        File Ventas = new File("Ventas.txt");
         try {
-            Alumnos.createNewFile();
+            Ventas.createNewFile();
             System.out.println("Archivo Ventas creado");
         } catch (IOException e) {
             System.out.println("Error al crear el archivo ");
@@ -57,7 +57,7 @@ public class creadorArchivos {
     }
 
     public void escribirArchivoVentas(ArrayList<ventas> venta) {
-        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Ventas.txt"))) {
+        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Empleados.txt"))) {
             escribir.writeObject(venta);
             escribir.close();
             System.out.println("Datos guardados correctamente");
@@ -68,53 +68,75 @@ public class creadorArchivos {
 
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<producto> leerArchivoProductos() {
         ArrayList<producto> productos = new ArrayList<>();
-        try {
-            FileInputStream leer = new FileInputStream("productos.txt");
-            ObjectInputStream lector = new ObjectInputStream(leer);
-            productos = (ArrayList<producto>) lector.readObject();
-            lector.close();
-            System.out.println("Archivo leido correctamente");
+        File archivo = new File("productos.txt");
+        if (archivo.length() != 0) {
+            try {
+                FileInputStream leer = new FileInputStream("productos.txt");
+                ObjectInputStream lector = new ObjectInputStream(leer);
+                productos = (ArrayList<producto>) lector.readObject();
+                lector.close();
+                System.out.println("Archivo leido correctamente");
 
-        } catch (Exception e) {
-            System.out.println("Errir al leer el archivo");
-            e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("Error al leer el archivo");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El archivo esta vacio");
         }
+
         return productos;
 
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<empleado> leerArchivoEmpleados() {
         ArrayList<empleado> empleados = new ArrayList<>();
-        try {
-            FileInputStream leer = new FileInputStream("Empleados.txt");
-            ObjectInputStream lector = new ObjectInputStream(leer);
-            empleados = (ArrayList<empleado>) lector.readObject();
-            lector.close();
-            System.out.println("Archivo leido correctamente");
+        File archivo = new File("Empleados.txt");
+        if (archivo.length() != 0) {
+            try {
+                FileInputStream leer = new FileInputStream("Empleados.txt");
+                ObjectInputStream lector = new ObjectInputStream(leer);
+                empleados = (ArrayList<empleado>) lector.readObject();
+                lector.close();
+                System.out.println("Archivo leido correctamente");
 
-        } catch (Exception e) {
-            System.out.println("Errir al leer el archivo");
-            e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("Error al leer el archivo");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El archivo esta vacio");
         }
+
         return empleados;
 
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<ventas> leerArchivoVenats() {
         ArrayList<ventas> venta = new ArrayList<>();
-        try {
-            FileInputStream leer = new FileInputStream("Ventas.txt");
-            ObjectInputStream lector = new ObjectInputStream(leer);
-            venta = (ArrayList<ventas>) lector.readObject();
-            lector.close();
-            System.out.println("Archivo leido correctamente");
+        File archivo = new File("Ventas.txt");
+        if (archivo.length() != 0) {
+            try {
+                FileInputStream leer = new FileInputStream("Ventas.txt");
+                ObjectInputStream lector = new ObjectInputStream(leer);
 
-        } catch (Exception e) {
-            System.out.println("Errir al leer el archivo");
-            e.printStackTrace();
+                venta = (ArrayList<ventas>) lector.readObject();
+                lector.close();
+                System.out.println("Archivo leido correctamente");
+
+            } catch (Exception e) {
+                System.out.println("Error al leer el archivo");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El archivo esta vacio");
         }
+
         return venta;
 
     }
