@@ -19,7 +19,7 @@ public class Proyecto {
         String num, contraseña;
         double precio;
         int cantidad;
-        int caja;
+        int caja, i = 0;
 
         do {
             System.out.println("Menu principal");
@@ -55,7 +55,7 @@ public class Proyecto {
                                 dirreccion = scanner.nextLine();
                                 System.out.println("ingrese su numero de celular");
                                 num = scanner.nextLine();
-                                tempEmpleado= new empleado(nom, dirreccion, num, rfc, id, contraseña);
+                                tempEmpleado = new empleado(nom, dirreccion, num, rfc, id, contraseña);
                                 empleados.add(tempEmpleado);
                                 archivos.escribirArchivoEmpleados(empleados);
                                 System.out.println("quiere ingresar mas si/no");
@@ -67,9 +67,40 @@ public class Proyecto {
 
                             break;
                         case 2:
+                            System.out.println("Modificacion");
+                            System.out.println("Ingrese el id del empleado a modificar");
+                            id = scanner.nextLine();
+                            for (empleado trabajador : empleados) {
+                                if (trabajador.id.equals(id)) {
+                                    System.out.println("Ingrese el nombre");
+                                    nom = scanner.nextLine();
+                                    System.out.println("Ingrese el rfc");
+                                    rfc = scanner.nextLine();
+                                    System.out.println("ingrese la direccion");
+                                    dirreccion = scanner.nextLine();
+                                    System.out.println("Ingrese la nueva contraseña");
+                                    contraseña = scanner.nextLine();
+                                    System.out.println("ingrese el numero de celular");
+                                    num = scanner.nextLine();
+                                    tempEmpleado = new empleado(nom, dirreccion, num, rfc, id, contraseña);
+                                    empleados.add(i, tempEmpleado);
+
+                                }
+                                i++;
+                            }
 
                             break;
                         case 3:
+                            System.out.println("Consulta general empleados");
+                            for (empleado trabajador : empleados) {
+                                System.out.println("Id: " + trabajador.getId());
+                                System.out.println("Nombre: " + trabajador.getNom());
+                                System.out.println("rfc: " + trabajador.getRfc());
+                                System.out.println("direccion: " + trabajador.getDir());
+                                System.out.println("numero de celular: " + trabajador.getNum());
+                                System.out.println("Comtraseña de caja: " + trabajador.getContraseña());
+
+                            }
 
                             break;
                         case 4:

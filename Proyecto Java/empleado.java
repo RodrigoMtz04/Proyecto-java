@@ -17,4 +17,8 @@ public class empleado extends persona {
     public String getRfc() {
         return rfc;
     }
+    
+     public String getContraseña() {
+        return contaseñaCaja;
+    }
 }
