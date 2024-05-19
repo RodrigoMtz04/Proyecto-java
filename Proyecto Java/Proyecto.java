@@ -5,6 +5,7 @@ public class Proyecto {
         ArrayList<producto> productos = new ArrayList<>();
         ArrayList<empleado> empleados = new ArrayList<>();
         ArrayList<cliente> clientes = new ArrayList<>();
+        creadorArchivos archivos = new creadorArchivos();
         Scanner scanner = new Scanner(System.in);
         creadorArchivos creador = new creadorArchivos();
         producto tempProducto = null;
@@ -54,6 +55,9 @@ public class Proyecto {
                                 dirreccion = scanner.nextLine();
                                 System.out.println("ingrese su numero de celular");
                                 num = scanner.nextLine();
+                                tempEmpleado= new empleado(nom, dirreccion, num, rfc, id, contraseña);
+                                empleados.add(tempEmpleado);
+                                archivos.escribirArchivoEmpleados(empleados);
                                 System.out.println("quiere ingresar mas si/no");
                                 resp = scanner.nextLine();
                                 if (resp.equals("no")) {
