@@ -57,7 +57,7 @@ public class creadorArchivos {
     }
 
     public void escribirArchivoVentas(ArrayList<ventas> venta) {
-        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Empleados.txt"))) {
+        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Ventas.txt"))) {
             escribir.writeObject(venta);
             escribir.close();
             System.out.println("Datos guardados correctamente");
@@ -71,7 +71,7 @@ public class creadorArchivos {
     public static ArrayList<producto> leerArchivoProductos() {
         ArrayList<producto> productos = new ArrayList<>();
         try {
-            FileInputStream leer = new FileInputStream("Alumnos.txt");
+            FileInputStream leer = new FileInputStream("productos.txt");
             ObjectInputStream lector = new ObjectInputStream(leer);
             productos = (ArrayList<producto>) lector.readObject();
             lector.close();
@@ -88,7 +88,7 @@ public class creadorArchivos {
     public static ArrayList<empleado> leerArchivoEmpleados() {
         ArrayList<empleado> empleados = new ArrayList<>();
         try {
-            FileInputStream leer = new FileInputStream("Alumnos.txt");
+            FileInputStream leer = new FileInputStream("Empleados.txt");
             ObjectInputStream lector = new ObjectInputStream(leer);
             empleados = (ArrayList<empleado>) lector.readObject();
             lector.close();
@@ -105,7 +105,7 @@ public class creadorArchivos {
     public static ArrayList<ventas> leerArchivoVenats() {
         ArrayList<ventas> venta = new ArrayList<>();
         try {
-            FileInputStream leer = new FileInputStream("Alumnos.txt");
+            FileInputStream leer = new FileInputStream("Ventas.txt");
             ObjectInputStream lector = new ObjectInputStream(leer);
             venta = (ArrayList<ventas>) lector.readObject();
             lector.close();
