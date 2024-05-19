@@ -32,6 +32,16 @@ public class creadorArchivos {
         }
     }
 
+    public void crearArchivoClientes() {
+        File Ventas = new File("Clientes.txt");
+        try {
+            Ventas.createNewFile();
+            System.out.println("Archivo Ventas creado");
+        } catch (IOException e) {
+            System.out.println("Error al crear el archivo ");
+        }
+    }
+
     public void escribirArchivoProuctos(ArrayList<producto> productos) {
         try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("productos.txt"))) {
             escribir.writeObject(productos);
@@ -59,6 +69,18 @@ public class creadorArchivos {
     public void escribirArchivoVentas(ArrayList<ventas> venta) {
         try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Empleados.txt"))) {
             escribir.writeObject(venta);
+            escribir.close();
+            System.out.println("Datos guardados correctamente");
+
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos");
+        }
+
+    }
+
+    public void escribirArchivoClientes(ArrayList<cliente> clientes) {
+        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Clientes.txt"))) {
+            escribir.writeObject(clientes);
             escribir.close();
             System.out.println("Datos guardados correctamente");
 
@@ -138,6 +160,31 @@ public class creadorArchivos {
         }
 
         return venta;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<cliente> leerArchivoClientes() {
+        ArrayList<cliente> clientes = new ArrayList<>();
+        File archivo = new File("Clientes.txt");
+        if (archivo.length() != 0) {
+            try {
+                FileInputStream leer = new FileInputStream("Clientes.txt");
+                ObjectInputStream lector = new ObjectInputStream(leer);
+
+                clientes = (ArrayList<cliente>) lector.readObject();
+                lector.close();
+                System.out.println("Archivo leido correctamente");
+
+            } catch (Exception e) {
+                System.out.println("Error al leer el archivo");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El archivo esta vacio");
+        }
+
+        return clientes;
 
     }
 

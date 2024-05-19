@@ -5,6 +5,7 @@ public class Proyecto {
         ArrayList<producto> productos = new ArrayList<>();
         ArrayList<empleado> empleados = new ArrayList<>();
         ArrayList<cliente> clientes = new ArrayList<>();
+        ArrayList<ventas> ventasD = new ArrayList<>();
         creadorArchivos archivos = new creadorArchivos();
         Scanner scanner = new Scanner(System.in);
         creadorArchivos creador = new creadorArchivos();
@@ -26,7 +27,8 @@ public class Proyecto {
             System.out.println("1) Menu de cajeros");
             System.out.println("2) Menu productos");
             System.out.println("3) Ventas");
-            System.out.println("4) Salir");
+            System.out.println("4) Leer archivos");
+            System.out.println("5) Salir");
             opc = scanner.nextInt();
             switch (opc) {
                 case 1:
@@ -104,12 +106,49 @@ public class Proyecto {
 
                             break;
                         case 4:
+                            System.out.println("Consulta por id");
+                            System.out.println("ingrese el id del empleado");
+                            id = scanner.nextLine();
+                            for (empleado trabajador : empleados) {
+                                if (trabajador.id.equals(id)) {
+                                    System.out.println("Id: " + trabajador.getId());
+                                    System.out.println("Nombre: " + trabajador.getNom());
+                                    System.out.println("rfc: " + trabajador.getRfc());
+                                    System.out.println("direccion: " + trabajador.getDir());
+                                    System.out.println("numero de celular: " + trabajador.getNum());
+                                    System.out.println("Comtraseña de caja: " + trabajador.getContraseña());
+
+                                }
+                            }
 
                             break;
                         case 5:
+                            System.out.println("Eliminar empleado");
+                            System.out.println("ingrese la id del empleado");
+                            id = scanner.nextLine();
+                            boolean encontrado = false;
+                            for (empleado trabajador : empleados) {
+                                if (trabajador.id.equals(id)) {
+                                    encontrado = true;
+                                    tempEmpleado = trabajador;
+                                }
+
+                            }
+
+                            if (encontrado == true) {
+                                try {
+                                    empleados.remove(tempEmpleado);
+                                    archivos.escribirArchivoEmpleados(empleados);
+                                    System.out.println("Empleado eliminado");
+                                } catch (Exception e) {
+                                    System.out.println("Error al eliminar empleado");
+                                }
+
+                            }
 
                             break;
                         case 6:
+                            System.out.println("Saliendo....");
 
                             break;
 
@@ -181,12 +220,23 @@ public class Proyecto {
                             break;
                     }
                     break;
+                case 4:
+                    archivos.crearArchivoEmpleados();
+                    archivos.crearArchivoProductos();
+                    archivos.crearArchivoVentas();
+                    archivos.crearArchivoClientes();
+                    empleados = archivos.leerArchivoEmpleados();
+                    productos = archivos.leerArchivoProductos();
+                    clientes = archivos.leerArchivoClientes();
+                    ventasD = archivos.leerArchivoVenats();
+
+                    break;
 
                 default:
                     break;
             }
 
-        } while (opc != 4);
+        } while (opc != 5);
         scanner.close();
     }
 }
