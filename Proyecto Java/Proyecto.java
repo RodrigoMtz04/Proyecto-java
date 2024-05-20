@@ -225,6 +225,7 @@ public class Proyecto {
                     archivos.crearArchivoProductos();
                     archivos.crearArchivoVentas();
                     archivos.crearArchivoClientes();
+                    archivos.crearArchivoPersona();
                     empleados = archivos.leerArchivoEmpleados();
                     productos = archivos.leerArchivoProductos();
                     clientes = archivos.leerArchivoClientes();

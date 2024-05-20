@@ -1,4 +1,6 @@
-public class cliente extends persona {
+import java.io.*;
+
+public class cliente extends persona implements Serializable {
     String tipo;
     String id;
 

@@ -1,4 +1,7 @@
-public class empleado extends persona {
+import java.io.*;
+
+public class empleado extends persona implements Serializable {
+
     String rfc;
     String id;
     String contaseñaCaja;
@@ -17,8 +20,8 @@ public class empleado extends persona {
     public String getRfc() {
         return rfc;
     }
-    
-     public String getContraseña() {
+
+    public String getContraseña() {
         return contaseñaCaja;
     }
 }

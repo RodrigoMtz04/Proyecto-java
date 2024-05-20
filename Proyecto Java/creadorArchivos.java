@@ -42,6 +42,16 @@ public class creadorArchivos {
         }
     }
 
+    public void crearArchivoPersona() {
+        File Alumnos = new File("persona.txt");
+        try {
+            Alumnos.createNewFile();
+            System.out.println("Archivo Persona creado");
+        } catch (IOException e) {
+            System.out.println("Error al crear el archivo ");
+        }
+    }
+
     public void escribirArchivoProuctos(ArrayList<producto> productos) {
         try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("productos.txt"))) {
             escribir.writeObject(productos);
@@ -103,7 +113,7 @@ public class creadorArchivos {
                 System.out.println("Archivo leido correctamente");
 
             } catch (Exception e) {
-                System.out.println("Error al leer el archivo");
+                System.out.println("Error al leer el archivo productos");
                 e.printStackTrace();
             }
         } else {
@@ -127,7 +137,7 @@ public class creadorArchivos {
                 System.out.println("Archivo leido correctamente");
 
             } catch (Exception e) {
-                System.out.println("Error al leer el archivo");
+                System.out.println("Error al leer el archivo empleados");
                 e.printStackTrace();
             }
         } else {
@@ -152,7 +162,7 @@ public class creadorArchivos {
                 System.out.println("Archivo leido correctamente");
 
             } catch (Exception e) {
-                System.out.println("Error al leer el archivo");
+                System.out.println("Error al leer el archivo ventas");
                 e.printStackTrace();
             }
         } else {
@@ -177,7 +187,7 @@ public class creadorArchivos {
                 System.out.println("Archivo leido correctamente");
 
             } catch (Exception e) {
-                System.out.println("Error al leer el archivo");
+                System.out.println("Error al leer el archivo clientes");
                 e.printStackTrace();
             }
         } else {

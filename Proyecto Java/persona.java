@@ -1,5 +1,7 @@
+import java.io.*;
 
-public class persona {
+public class persona implements Serializable {
+
     String nombre;
     String direccion;
     String numCelular;

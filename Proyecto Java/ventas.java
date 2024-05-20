@@ -1,4 +1,6 @@
-public class ventas {
+import java.io.*;
+
+public class ventas implements Serializable {
     String productos;
     double venta;
     int caja;
