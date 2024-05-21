@@ -158,7 +158,7 @@ public class Proyecto {
 
                     break;
                 case 2:
-                    System.out.println("Menu de cajeros");
+                    System.out.println("Menu de productos");
                     System.out.println("1) reguistro");
                     System.out.println("2) modificacion");
                     System.out.println("3) consulta general");
