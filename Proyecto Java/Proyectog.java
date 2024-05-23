@@ -10,7 +10,7 @@ public class Proyectog {
     private DefaultTableModel productosT, empleadosT;
     private ArrayList<empleado> empleados;
     private ArrayList<producto> productos;
-    private ArrayList<cliente> clientes;
+    private ArrayList<cliente> clienhjtes;
     private ArrayList<ventas> venta;
     private creadorArchivos archivos;
 
