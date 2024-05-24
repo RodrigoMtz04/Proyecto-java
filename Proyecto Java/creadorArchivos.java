@@ -101,7 +101,7 @@ public class creadorArchivos {
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<producto> leerArchivoProductos() {
+    public ArrayList<producto> leerArchivoProductos() {
         ArrayList<producto> productos = new ArrayList<>();
         File archivo = new File("productos.txt");
         if (archivo.length() != 0) {
@@ -117,7 +117,7 @@ public class creadorArchivos {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("El archivo esta vacio");
+            System.out.println("El archivo esta vacio - productos");
         }
 
         return productos;
@@ -125,7 +125,7 @@ public class creadorArchivos {
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<empleado> leerArchivoEmpleados() {
+    public ArrayList<empleado> leerArchivoEmpleados() {
         ArrayList<empleado> empleados = new ArrayList<>();
         File archivo = new File("Empleados.txt");
         if (archivo.length() != 0) {
@@ -141,7 +141,7 @@ public class creadorArchivos {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("El archivo esta vacio");
+            System.out.println("El archivo esta vacio - Empleados");
         }
 
         return empleados;
@@ -149,7 +149,7 @@ public class creadorArchivos {
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<ventas> leerArchivoVenats() {
+    public ArrayList<ventas> leerArchivoVenats() {
         ArrayList<ventas> venta = new ArrayList<>();
         File archivo = new File("Ventas.txt");
         if (archivo.length() != 0) {
@@ -166,7 +166,7 @@ public class creadorArchivos {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("El archivo esta vacio");
+            System.out.println("El archivo esta vacio - Ventas");
         }
 
         return venta;
@@ -174,7 +174,7 @@ public class creadorArchivos {
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<cliente> leerArchivoClientes() {
+    public ArrayList<cliente> leerArchivoClientes() {
         ArrayList<cliente> clientes = new ArrayList<>();
         File archivo = new File("Clientes.txt");
         if (archivo.length() != 0) {
@@ -191,7 +191,7 @@ public class creadorArchivos {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("El archivo esta vacio");
+            System.out.println("El archivo esta vacio - Clientes");
         }
 
         return clientes;

@@ -24,4 +24,16 @@ public class empleado extends persona implements Serializable {
     public String getContraseña() {
         return contaseñaCaja;
     }
+
+    public void setContaseñaCaja(String contaseñaCaja) {
+        this.contaseñaCaja = contaseñaCaja;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
 }
