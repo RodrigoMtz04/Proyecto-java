@@ -366,8 +366,8 @@ public class Proyectog extends JFrame {
         JScrollPane scrollVentaCorte = new JScrollPane(tablaVentaCorte);
         scrollVentaCorte.setBounds(50, 35, 500, 260);
 
-        //Panel de advertencias
-        
+        // Panel de advertencias
+
         pVentaCorte.add(scrollVentaCorte);
         ////////////////////////////////////// ACIONES MENU SUPERIOR
         emp1_Agregar.addActionListener(new ActionListener() {
@@ -543,6 +543,14 @@ public class Proyectog extends JFrame {
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
 
+                templateProductos.setRowCount(0);
+                for (producto tempProducto : listaProductos) {
+                    templateProductos
+                            .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
+                                    tempProducto.getPrecio(), tempProducto.getCantidad(),
+                                    tempProducto.getDescripcion() });
+
+                }
             }
         });
 
@@ -558,6 +566,8 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(true);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+
+                templateProductos.setRowCount(0);
             }
         });
 
@@ -651,13 +661,16 @@ public class Proyectog extends JFrame {
                     }
                 }
                 if (!repetido) {
-                    listaEmpleados.add(new empleado(nombre.getText(), direccion.getText(), num.getText(), rfc.getText(),
-                            id.getText(), textContraseña.getText()));
-                    archivos.escribirArchivoEmpleados(listaEmpleados);
                 } else {
                     // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    System.out.println("REPETIDO");
+                    archivos.escribirArchivoEmpleados(listaEmpleados);
                 }
+                nombre.setText("");
+                direccion.setText("");
+                num.setText("");
+                rfc.setText("");
+                id.setText("");
+                textContraseña.setText("");
             }
         });
 
@@ -702,24 +715,95 @@ public class Proyectog extends JFrame {
 
         botonAgregarProducto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        break;
+                    }
+                }
+                if (!repetido) {
+                    listaProductos.add(new producto(fieldProductoID.getText(), fieldProductoNombre.getText(),
+                            Double.parseDouble(fieldProductoPrecio.getText()),
+                            Integer.parseInt(fieldProductoCantidad.getText()), fieldProductoDescripcion.getText()));
+                    archivos.escribirArchivoProuctos(listaProductos);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("REPETIDO");
+                }
+                fieldProductoID.setText("");
+                fieldProductoNombre.setText("");
+                fieldProductoPrecio.setText("");
+                fieldProductoCantidad.setText("");
+                fieldProductoDescripcion.setText("");
             }
         });
 
         botonModificarProducto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        tempProducto.setCantidad(Integer.parseInt(fieldProductoCantidad.getText()));
+                        tempProducto.setDescripcion(fieldProductoDescripcion.getText());
+                        tempProducto.setNombre(fieldProductoNombre.getText());
+                        tempProducto.setPrecio(Double.parseDouble(fieldProductoPrecio.getText()));
+
+                        System.out.println(tempProducto.getId());
+                        break;
+                    }
+                }
+                if (!repetido) {
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    archivos.escribirArchivoProuctos(listaProductos);
+                    System.out.println("REPETIDO");
+                }
+                fieldProductoID.setText("");
+                fieldProductoNombre.setText("");
+                fieldProductoPrecio.setText("");
+                fieldProductoCantidad.setText("");
+                fieldProductoDescripcion.setText("");
             }
         });
 
         botonEliminarProducto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                int posicion = -1;
+
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        posicion = listaProductos.indexOf(tempProducto);
+                        break;
+                    }
+                }
+                if (repetido) {
+                    listaProductos.remove(posicion);
+                    archivos.escribirArchivoProuctos(listaProductos);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("NO SE ELIMINO NADA");
+                }
             }
         });
 
         botonConsultaProductoID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                templateProductos.setRowCount(0);
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(consultaProductoID.getText())) {
+                        templateProductos
+                                .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
+                                        tempProducto.getPrecio(), tempProducto.getCantidad(),
+                                        tempProducto.getDescripcion() });
+                    }
+                }
                 // TODO
             }
         });
@@ -767,5 +851,4 @@ public class Proyectog extends JFrame {
         pVentaCorte.setVisible(false);
 
     }
-
 }

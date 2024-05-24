@@ -15,8 +15,9 @@ public class producto implements Serializable {
         this.descripcion = desc;
     }
 
-    public void setCantidad(int venta) {
-        this.cantidad = cantidad - venta;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+        //this.cantidad = cantidad - venta; Hacía conflicto con la tabla, lo revisan
     }
 
     public void setPrecio(double precio) {
