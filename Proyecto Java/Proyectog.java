@@ -741,34 +741,41 @@ public class Proyectog extends JFrame {
         });
 
         botonModificarProducto.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String comparado = fieldProductoID.getText();
-                boolean repetido = false;
-                for (producto tempProducto : listaProductos) {
-                    if (tempProducto.getId().equals(comparado)) {
-                        repetido = true;
-                        tempProducto.setCantidad(Integer.parseInt(fieldProductoCantidad.getText()));
-                        tempProducto.setDescripcion(fieldProductoDescripcion.getText());
-                        tempProducto.setNombre(fieldProductoNombre.getText());
-                        tempProducto.setPrecio(Double.parseDouble(fieldProductoPrecio.getText()));
-
-                        System.out.println(tempProducto.getId());
-                        break;
-                    }
+        public void actionPerformed(ActionEvent e) {
+        String comparado = fieldProductoID.getText();
+        boolean repetido = false;
+        for (producto tempProducto : listaProductos) {
+            if (tempProducto.getId().equals(comparado)) {
+                repetido = true;
+                try {
+                    tempProducto.setCantidad(Integer.parseInt(fieldProductoCantidad.getText()));
+                    tempProducto.setDescripcion(fieldProductoDescripcion.getText());
+                    tempProducto.setNombre(fieldProductoNombre.getText());
+                    tempProducto.setPrecio(Double.parseDouble(fieldProductoPrecio.getText()));
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en los datos de entrada. Verifique los campos numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                if (!repetido) {
-                } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    archivos.escribirArchivoProuctos(listaProductos);
-                    System.out.println("REPETIDO");
-                }
-                fieldProductoID.setText("");
-                fieldProductoNombre.setText("");
-                fieldProductoPrecio.setText("");
-                fieldProductoCantidad.setText("");
-                fieldProductoDescripcion.setText("");
+                System.out.println(tempProducto.getId());
+                break;
             }
-        });
+        }
+
+        if (repetido) {
+            archivos.escribirArchivoProuctos(listaProductos);
+            JOptionPane.showMessageDialog(null, "Producto modificado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("REPETIDO");
+        } else {
+            JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.", "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
+        }
+
+        fieldProductoID.setText("");
+        fieldProductoNombre.setText("");
+        fieldProductoPrecio.setText("");
+        fieldProductoCantidad.setText("");
+        fieldProductoDescripcion.setText("");
+    }
+});
 
         botonEliminarProducto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
