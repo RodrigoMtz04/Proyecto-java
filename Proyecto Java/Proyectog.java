@@ -618,25 +618,14 @@ public class Proyectog extends JFrame {
         });
         ////////////////////////////////////// ACIONES DE BOTONES
         botonAgregarEmp.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        try {
-            String nombreEmpleado = nombre.getText();
-            String direccionEmpleado = direccion.getText();
-            String numeroEmpleado = num.getText();
-            String rfcEmpleado = rfc.getText();
-            String idEmpleado = id.getText();
-            String contraseñaEmpleado = textContraseña.getText();
-
-            if (nombreEmpleado.isEmpty() || direccionEmpleado.isEmpty() || numeroEmpleado.isEmpty() ||
-                    rfcEmpleado.isEmpty() || idEmpleado.isEmpty() || contraseñaEmpleado.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            for (empleado tempEmpleado : listaEmpleados) {
-                if (tempEmpleado.getId().equals(idEmpleado)) {
-                    JOptionPane.showMessageDialog(null, "El ID del empleado ya existe.", "Empleado repetido", JOptionPane.WARNING_MESSAGE);
-                    return;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = id.getText();
+                boolean repetido = false;
+                for (empleado tempEmpleado : listaEmpleados) {
+                    if (tempEmpleado.getId().equals(comparado)) {
+                        repetido = true;
+                        break;
+                    }
                 }
                 if (!repetido) {
                     listaEmpleados.add(new empleado(nombre.getText(), direccion.getText(), num.getText(), rfc.getText(),
@@ -655,42 +644,24 @@ public class Proyectog extends JFrame {
                 id.setText("");
                 textContraseña.setText("");
             }
-
-            listaEmpleados.add(new empleado(nombreEmpleado, direccionEmpleado, numeroEmpleado, rfcEmpleado, idEmpleado, contraseñaEmpleado));
-            archivos.escribirArchivoEmpleados(listaEmpleados);
-
-            JOptionPane.showMessageDialog(null, "Empleado agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-            nombre.setText("");
-            direccion.setText("");
-            num.setText("");
-            rfc.setText("");
-            id.setText("");
-            textContraseña.setText("");
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar agregar el empleado. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-});
+        });
 
         botonModificarEmp.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        String comparado = id.getText();
-        boolean encontrado = false;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = id.getText();
+                boolean repetido = false;
+                for (empleado tempEmpleado : listaEmpleados) {
+                    if (tempEmpleado.getId().equals(comparado)) {
+                        repetido = true;
+                        tempEmpleado.setDireccion(direccion.getText());
+                        tempEmpleado.setNombre(nombre.getText());
+                        tempEmpleado.setNumero(num.getText());
+                        tempEmpleado.setContaseñaCaja(textContraseña.getText());
+                        tempEmpleado.setRfc(rfc.getText());
 
-        try {
-            for (empleado tempEmpleado : listaEmpleados) {
-                if (tempEmpleado.getId().equals(comparado)) {
-                    encontrado = true;
-                    tempEmpleado.setDireccion(direccion.getText());
-                    tempEmpleado.setNombre(nombre.getText());
-                    tempEmpleado.setNumero(num.getText());
-                    tempEmpleado.setContaseñaCaja(textContraseña.getText());
-                    tempEmpleado.setRfc(rfc.getText());
-
-                    System.out.println(tempEmpleado.getId());
-                    break;
+                        System.out.println(tempEmpleado.getId());
+                        break;
+                    }
                 }
                 if (!repetido) {
                 } else {
@@ -706,40 +677,20 @@ public class Proyectog extends JFrame {
                 id.setText("");
                 textContraseña.setText("");
             }
-
-            if (encontrado) {
-                archivos.escribirArchivoEmpleados(listaEmpleados);
-                JOptionPane.showMessageDialog(null, "Empleado modificado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Empleado no encontrado", "Empleado no encontrado", JOptionPane.WARNING_MESSAGE);
-            }
-
-            nombre.setText("");
-            direccion.setText("");
-            num.setText("");
-            rfc.setText("");
-            id.setText("");
-            textContraseña.setText("");
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar modificar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-});
-
+        });
 
         botonEliminarEmp.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        String comparado = id.getText();
-        boolean encontrado = false;
-        int posicion = -1;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = id.getText();
+                boolean repetido = false;
+                int posicion = -1;
 
-        try {
-            for (empleado tempEmpleado : listaEmpleados) {
-                if (tempEmpleado.getId().equals(comparado)) {
-                    encontrado = true;
-                    posicion = listaEmpleados.indexOf(tempEmpleado);
-                    break;
+                for (empleado tempEmpleado : listaEmpleados) {
+                    if (tempEmpleado.getId().equals(comparado)) {
+                        repetido = true;
+                        posicion = listaEmpleados.indexOf(tempEmpleado);
+                        break;
+                    }
                 }
                 if (repetido) {
                     listaEmpleados.remove(posicion);
@@ -751,21 +702,7 @@ public class Proyectog extends JFrame {
                     System.out.println("NO SE ELIMINO NADA");
                 }
             }
-
-            if (encontrado) {
-                listaEmpleados.remove(posicion);
-                archivos.escribirArchivoEmpleados(listaEmpleados);
-                JOptionPane.showMessageDialog(null, "Empleado eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Empleado no encontrado", "Empleado no encontrado", JOptionPane.WARNING_MESSAGE);
-            }
-
-            id.setText("");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar eliminar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-});
+        });
 
         botonConsultaID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -810,37 +747,7 @@ public class Proyectog extends JFrame {
                 fieldProductoCantidad.setText("");
                 fieldProductoDescripcion.setText("");
             }
-        }
-
-        if (!repetido) {
-            try {
-                String id = fieldProductoID.getText();
-                String nombre = fieldProductoNombre.getText();
-                double precio = Double.parseDouble(fieldProductoPrecio.getText());
-                int cantidad = Integer.parseInt(fieldProductoCantidad.getText());
-                String descripcion = fieldProductoDescripcion.getText();
-
-                listaProductos.add(new producto(id, nombre, precio, cantidad, descripcion));
-
-                archivos.escribirArchivoProuctos(listaProductos);
-
-                JOptionPane.showMessageDialog(null, "Producto agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Error en los datos de entrada. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Producto repetido, por favor ingrese otro.", "Error", JOptionPane.WARNING_MESSAGE);
-        }
-
-        fieldProductoID.setText("");
-        fieldProductoNombre.setText("");
-        fieldProductoPrecio.setText("");
-        fieldProductoCantidad.setText("");
-        fieldProductoDescripcion.setText("");
-    }
-});
+        });
 
         botonModificarProducto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -884,17 +791,17 @@ public class Proyectog extends JFrame {
         });
 
         botonEliminarProducto.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        String comparado = fieldProductoID.getText();
-        boolean encontrado = false;
-        int posicion = -1;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                int posicion = -1;
 
-        try {
-            for (producto tempProducto : listaProductos) {
-                if (tempProducto.getId().equals(comparado)) {
-                    encontrado = true;
-                    posicion = listaProductos.indexOf(tempProducto);
-                    break;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        posicion = listaProductos.indexOf(tempProducto);
+                        break;
+                    }
                 }
                 if (repetido) {
                     listaProductos.remove(posicion);
@@ -907,26 +814,7 @@ public class Proyectog extends JFrame {
                 }
                 fieldProductoID.setText("");
             }
-
-            if (encontrado) {
-                listaProductos.remove(posicion);
-                archivos.escribirArchivoProuctos(listaProductos);
-                JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.", "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
-                System.out.println("NO SE ELIMINO NADA");
-            }
-
-            fieldProductoID.setText("");
-            fieldProductoNombre.setText("");
-            fieldProductoPrecio.setText("");
-            fieldProductoCantidad.setText("");
-            fieldProductoDescripcion.setText("");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar eliminar el producto. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-});
+        });
 
         botonConsultaProductoID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -950,14 +838,7 @@ public class Proyectog extends JFrame {
                 }
 
             }
-            if (templateProductos.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "No se encontraron productos con el ID especificado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al intentar consultar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-});
+        });
 
         botonAgregarArticulo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -1006,6 +887,10 @@ public class Proyectog extends JFrame {
         // TODO: botonModificarEmp
         // TODO: botonEliminarEmp
         // TODO: botonConsultaID
+        // TODO: botonAgregarProducto
+        // TODO: botonModificarProducto
+        // TODO: botonEliminarProducto
+        // TODO: botonConsultaProductoID
         // TODO: botonAgregarArticulo
         // TODO: botonVender
 
