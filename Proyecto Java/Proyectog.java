@@ -842,7 +842,7 @@ public class Proyectog extends JFrame {
 
         botonAgregarArticulo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                templateVentas.setRowCount(0);
+                // templateVentas.setRowCount(0);
                 boolean encontrado = false;
                 for (producto tempProducto : listaProductos) {
                     if (tempProducto.getId().equals(fieldVentaID.getText())) {
@@ -850,7 +850,7 @@ public class Proyectog extends JFrame {
 
                             templateVentas
                                     .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
-                                            tempProducto.getPrecio(), tempProducto.getCantidad(),
+                                            tempProducto.getPrecio(), fieldVentaCantidad.getText(),
                                             tempProducto.getDescripcion() });
                             totalVenta = totalVenta + tempProducto.getPrecio();
                             System.out.println(totalVenta);
@@ -873,7 +873,7 @@ public class Proyectog extends JFrame {
                 fieldVentaCaja.setText("");
                 fieldVentaCantidad.setText("");
                 fieldVentaID.setText("");
-                // TODO
+                
             }
         });
 
