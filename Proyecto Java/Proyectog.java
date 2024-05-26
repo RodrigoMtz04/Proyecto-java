@@ -19,6 +19,7 @@ public class Proyectog extends JFrame {
     private ArrayList<cliente> listaClientes;
     private ArrayList<ventas> listaVentas;
     private creadorArchivos archivos;
+    double totalVenta = 0;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Proyectog());
@@ -637,6 +638,22 @@ public class Proyectog extends JFrame {
                     JOptionPane.showMessageDialog(null, "El ID del empleado ya existe.", "Empleado repetido", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+                if (!repetido) {
+                    listaEmpleados.add(new empleado(nombre.getText(), direccion.getText(), num.getText(), rfc.getText(),
+                            id.getText(), textContraseña.getText()));
+                    archivos.escribirArchivoEmpleados(listaEmpleados);
+                    JOptionPane.showMessageDialog(null, "Empleado agregado correctamente.",
+                            "Empleado agregado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("REPETIDO");
+                }
+                nombre.setText("");
+                direccion.setText("");
+                num.setText("");
+                rfc.setText("");
+                id.setText("");
+                textContraseña.setText("");
             }
 
             listaEmpleados.add(new empleado(nombreEmpleado, direccionEmpleado, numeroEmpleado, rfcEmpleado, idEmpleado, contraseñaEmpleado));
@@ -675,6 +692,19 @@ public class Proyectog extends JFrame {
                     System.out.println(tempEmpleado.getId());
                     break;
                 }
+                if (!repetido) {
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    archivos.escribirArchivoEmpleados(listaEmpleados);
+                    JOptionPane.showMessageDialog(null, "Empleado modificado correctamente.",
+                            "Modificacion empleado", JOptionPane.WARNING_MESSAGE);
+                }
+                nombre.setText("");
+                direccion.setText("");
+                num.setText("");
+                rfc.setText("");
+                id.setText("");
+                textContraseña.setText("");
             }
 
             if (encontrado) {
@@ -711,6 +741,15 @@ public class Proyectog extends JFrame {
                     posicion = listaEmpleados.indexOf(tempEmpleado);
                     break;
                 }
+                if (repetido) {
+                    listaEmpleados.remove(posicion);
+                    archivos.escribirArchivoEmpleados(listaEmpleados);
+                    JOptionPane.showMessageDialog(null, "Empleado eliminado correctamente.",
+                            "Empleado eliminado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("NO SE ELIMINO NADA");
+                }
             }
 
             if (encontrado) {
@@ -745,14 +784,31 @@ public class Proyectog extends JFrame {
         });
 
         botonAgregarProducto.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        String comparado = fieldProductoID.getText();
-        boolean repetido = false;
-
-        for (producto tempProducto : listaProductos) {
-            if (tempProducto.getId().equals(comparado)) {
-                repetido = true;
-                break;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        break;
+                    }
+                }
+                if (!repetido) {
+                    listaProductos.add(new producto(fieldProductoID.getText(), fieldProductoNombre.getText(),
+                            Double.parseDouble(fieldProductoPrecio.getText()),
+                            Integer.parseInt(fieldProductoCantidad.getText()), fieldProductoDescripcion.getText()));
+                    archivos.escribirArchivoProuctos(listaProductos);
+                    JOptionPane.showMessageDialog(null, "Producto agregado correctamente",
+                            "Producto agregado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("REPETIDO");
+                }
+                fieldProductoID.setText("");
+                fieldProductoNombre.setText("");
+                fieldProductoPrecio.setText("");
+                fieldProductoCantidad.setText("");
+                fieldProductoDescripcion.setText("");
             }
         }
 
@@ -787,41 +843,45 @@ public class Proyectog extends JFrame {
 });
 
         botonModificarProducto.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        String comparado = fieldProductoID.getText();
-        boolean repetido = false;
-        for (producto tempProducto : listaProductos) {
-            if (tempProducto.getId().equals(comparado)) {
-                repetido = true;
-                try {
-                    tempProducto.setCantidad(Integer.parseInt(fieldProductoCantidad.getText()));
-                    tempProducto.setDescripcion(fieldProductoDescripcion.getText());
-                    tempProducto.setNombre(fieldProductoNombre.getText());
-                    tempProducto.setPrecio(Double.parseDouble(fieldProductoPrecio.getText()));
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Error en los datos de entrada. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+            public void actionPerformed(ActionEvent e) {
+                String comparado = fieldProductoID.getText();
+                boolean repetido = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(comparado)) {
+                        repetido = true;
+                        try {
+                            tempProducto.setCantidad(Integer.parseInt(fieldProductoCantidad.getText()));
+                            tempProducto.setDescripcion(fieldProductoDescripcion.getText());
+                            tempProducto.setNombre(fieldProductoNombre.getText());
+                            tempProducto.setPrecio(Double.parseDouble(fieldProductoPrecio.getText()));
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Error en los datos de entrada. Verifique los campos numéricos.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        System.out.println(tempProducto.getId());
+                        break;
+                    }
                 }
-                System.out.println(tempProducto.getId());
-                break;
+
+                if (repetido) {
+                    archivos.escribirArchivoProuctos(listaProductos);
+                    JOptionPane.showMessageDialog(null, "Producto modificado exitosamente.", "Éxito",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("REPETIDO");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.",
+                            "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
+                }
+
+                fieldProductoID.setText("");
+                fieldProductoNombre.setText("");
+                fieldProductoPrecio.setText("");
+                fieldProductoCantidad.setText("");
+                fieldProductoDescripcion.setText("");
             }
-        }
-
-        if (repetido) {
-            archivos.escribirArchivoProuctos(listaProductos);
-            JOptionPane.showMessageDialog(null, "Producto modificado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("REPETIDO");
-        } else {
-            JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.", "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
-        }
-
-        fieldProductoID.setText("");
-        fieldProductoNombre.setText("");
-        fieldProductoPrecio.setText("");
-        fieldProductoCantidad.setText("");
-        fieldProductoDescripcion.setText("");
-    }
-});
+        });
 
         botonEliminarProducto.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
@@ -836,6 +896,16 @@ public class Proyectog extends JFrame {
                     posicion = listaProductos.indexOf(tempProducto);
                     break;
                 }
+                if (repetido) {
+                    listaProductos.remove(posicion);
+                    archivos.escribirArchivoProuctos(listaProductos);
+                    JOptionPane.showMessageDialog(null, "Producto elimindo correctamente",
+                            "Producto eliminado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                    System.out.println("NO SE ELIMINO NADA");
+                }
+                fieldProductoID.setText("");
             }
 
             if (encontrado) {
@@ -859,16 +929,26 @@ public class Proyectog extends JFrame {
 });
 
         botonConsultaProductoID.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        templateProductos.setRowCount(0);
-
-        try {
-            String idConsulta = consultaProductoID.getText();
-            for (producto tempProducto : listaProductos) {
-                if (tempProducto.getId().equals(idConsulta)) {
-                    templateProductos.addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
-                            tempProducto.getPrecio(), tempProducto.getCantidad(), tempProducto.getDescripcion() });
+            public void actionPerformed(ActionEvent e) {
+                templateProductos.setRowCount(0);
+                boolean repetido = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(consultaProductoID.getText())) {
+                        repetido = true;
+                        templateProductos
+                                .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
+                                        tempProducto.getPrecio(), tempProducto.getCantidad(),
+                                        tempProducto.getDescripcion() });
+                    }
                 }
+                if (repetido) {
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.",
+                            "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
+
+                }
+
             }
             if (templateProductos.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "No se encontraron productos con el ID especificado.", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
@@ -881,6 +961,37 @@ public class Proyectog extends JFrame {
 
         botonAgregarArticulo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                templateVentas.setRowCount(0);
+                boolean encontrado = false;
+                for (producto tempProducto : listaProductos) {
+                    if (tempProducto.getId().equals(fieldVentaID.getText())) {
+                        if (tempProducto.getCantidad() > Integer.parseInt(fieldVentaCantidad.getText())) {
+
+                            templateVentas
+                                    .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
+                                            tempProducto.getPrecio(), tempProducto.getCantidad(),
+                                            tempProducto.getDescripcion() });
+                            totalVenta = totalVenta + tempProducto.getPrecio();
+                            System.out.println(totalVenta);
+                            bottomConsultaVentasTotal.setText(String.format("%.2f", totalVenta));
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Cantidad del producto superior a la actual.",
+                                    "No stock", JOptionPane.WARNING_MESSAGE);
+                        }
+                        encontrado = true;
+                    }
+
+                }
+
+                if (encontrado) {
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.",
+                            "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
+                }
+                fieldVentaCaja.setText("");
+                fieldVentaCantidad.setText("");
+                fieldVentaID.setText("");
                 // TODO
             }
         });
