@@ -345,10 +345,6 @@ public class Proyectog extends JFrame {
         numJLabel.setBounds(10, 140, 80, 25);
         pReguistroClientes.add(tipoJLabel);
 
-        tipo = new JTextField(20);
-        tipo.setBounds(100, 140, 165, 25);
-        pReguistroClientes.add(tipo);
-
         JTextField fieldClienteTipo = new JTextField(20);
         fieldClienteTipo.setBounds(100, 80, 165, 25);
         pReguistroClientes.add(fieldClienteTipo);
@@ -1141,9 +1137,7 @@ public class Proyectog extends JFrame {
 
         botonVender.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                // TODO
-
+                
             }
         });
 
@@ -1159,7 +1153,7 @@ public class Proyectog extends JFrame {
                     }
                 }
                 if (!repetido) {
-                    listaClientes.add(new cliente(fieldClienteNombre.getText(), fieldClienteDireccion.getText(), fieldClienteTelefono.getText(), tipo.getText(), fieldClienteID.getText()));
+                    listaClientes.add(new cliente(fieldClienteNombre.getText(), fieldClienteDireccion.getText(), fieldClienteTelefono.getText(), fieldClienteTipo.getText(), fieldClienteID.getText()));
                     archivos.escribirArchivoClientes(listaClientes);
                     JOptionPane.showMessageDialog(null, "Cliente agregado correctamente.",
                             "Cliente agregado", JOptionPane.WARNING_MESSAGE);
@@ -1195,17 +1189,6 @@ public class Proyectog extends JFrame {
                 // Code for querying clients
             }
         });
-
-        // TODO: botonAgregarEmp
-        // TODO: botonModificarEmp
-        // TODO: botonEliminarEmp
-        // TODO: botonConsultaID
-        // TODO: botonAgregarProducto
-        // TODO: botonModificarProducto
-        // TODO: botonEliminarProducto
-        // TODO: botonConsultaProductoID
-        // TODO: botonAgregarArticulo
-        // TODO: botonVender
 
         // PRINCIPAL
         setJMenuBar(menuPrincipal);
