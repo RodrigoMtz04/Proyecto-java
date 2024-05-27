@@ -341,6 +341,14 @@ public class Proyectog extends JFrame {
         labelClienteTipo.setBounds(10, 80, 80, 25);
         pReguistroClientes.add(labelClienteTipo);
 
+        JLabel tipoJLabel = new JLabel("Tipo:");
+        numJLabel.setBounds(10, 140, 80, 25);
+        pReguistroClientes.add(tipoJLabel);
+
+        tipo = new JTextField(20);
+        tipo.setBounds(100, 140, 165, 25);
+        pReguistroClientes.add(tipo);
+
         JTextField fieldClienteTipo = new JTextField(20);
         fieldClienteTipo.setBounds(100, 80, 165, 25);
         pReguistroClientes.add(fieldClienteTipo);
@@ -795,7 +803,7 @@ public class Proyectog extends JFrame {
                 pConsultaClientes.setVisible(false);
             }
         });
-
+//TODO: piche tabla
         c3_ConsultaGen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 botonConsultaClientes.setVisible(false);
@@ -891,8 +899,8 @@ public class Proyectog extends JFrame {
                     JOptionPane.showMessageDialog(null, "Empleado agregado correctamente.",
                             "Empleado agregado", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    System.out.println("REPETIDO");
+                    JOptionPane.showMessageDialog(null, "Ya hay un empleado con este ID.",
+                            "ID repetido", JOptionPane.ERROR_MESSAGE);
                 }
                 nombre.setText("");
                 direccion.setText("");
@@ -920,9 +928,7 @@ public class Proyectog extends JFrame {
                         break;
                     }
                 }
-                if (!repetido) {
-                } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
+                if (repetido) {
                     archivos.escribirArchivoEmpleados(listaEmpleados);
                     JOptionPane.showMessageDialog(null, "Empleado modificado correctamente.",
                             "Modificacion empleado", JOptionPane.WARNING_MESSAGE);
@@ -955,8 +961,8 @@ public class Proyectog extends JFrame {
                     JOptionPane.showMessageDialog(null, "Empleado eliminado correctamente.",
                             "Empleado eliminado", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    System.out.println("NO SE ELIMINO NADA");
+                    JOptionPane.showMessageDialog(null, "No se encontro a un empleado con este ID.",
+                            "Eliminacion fallida", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -992,11 +998,11 @@ public class Proyectog extends JFrame {
                             Double.parseDouble(fieldProductoPrecio.getText()),
                             Integer.parseInt(fieldProductoCantidad.getText()), fieldProductoDescripcion.getText()));
                     archivos.escribirArchivoProuctos(listaProductos);
-                    JOptionPane.showMessageDialog(null, "Producto agregado correctamente",
+                    JOptionPane.showMessageDialog(null, "Producto agregado correctamente.",
                             "Producto agregado", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    System.out.println("REPETIDO");
+                    JOptionPane.showMessageDialog(null, "Ya hay un producto con este ID.",
+                            "ID repetido", JOptionPane.ERROR_MESSAGE);
                 }
                 fieldProductoID.setText("");
                 fieldProductoNombre.setText("");
@@ -1066,8 +1072,8 @@ public class Proyectog extends JFrame {
                     JOptionPane.showMessageDialog(null, "Producto elimindo correctamente",
                             "Producto eliminado", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    // TODO: TRATAR DE MOSTRAR EN VENTANA
-                    System.out.println("NO SE ELIMINO NADA");
+                    JOptionPane.showMessageDialog(null, "No se encontro a un producto con este ID",
+                            "Eliminacion fallida", JOptionPane.WARNING_MESSAGE);
                 }
                 fieldProductoID.setText("");
             }
@@ -1144,7 +1150,28 @@ public class Proyectog extends JFrame {
         // TODO: botonAgregarCliente
         botonAgregarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Code for adding a new client
+                String comparado = fieldClienteID.getText();
+                boolean repetido = false;
+                for (cliente tempCliente : listaClientes) {
+                    if (tempCliente.getId().equals(comparado)) {
+                        repetido = true;
+                        break;
+                    }
+                }
+                if (!repetido) {
+                    listaClientes.add(new cliente(fieldClienteNombre.getText(), fieldClienteDireccion.getText(), fieldClienteTelefono.getText(), tipo.getText(), fieldClienteID.getText()));
+                    archivos.escribirArchivoClientes(listaClientes);
+                    JOptionPane.showMessageDialog(null, "Cliente agregado correctamente.",
+                            "Cliente agregado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya hay un cliente con este ID.",
+                            "ID repetido", JOptionPane.ERROR_MESSAGE);
+                }
+                fieldClienteNombre.setText("");
+                fieldClienteDireccion.setText("");
+                fieldClienteTelefono.setText("");
+                fieldClienteTipo.setText("");
+                fieldClienteID.setText("");
             }
         });
 
@@ -1190,6 +1217,7 @@ public class Proyectog extends JFrame {
         add(pVentaCaja);
         add(pVentaCorte);
         add(pReguistroClientes);
+        add(pConsultaClientes);
 
         // INVISIBLES
         pRegistroEmpleado.setVisible(false);
@@ -1200,6 +1228,7 @@ public class Proyectog extends JFrame {
         pVentaCaja.setVisible(false);
         pVentaCorte.setVisible(false);
         pReguistroClientes.setVisible(false);
+        pConsultaClientes.setVisible(false);
 
     }
 }
