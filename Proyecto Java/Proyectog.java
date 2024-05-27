@@ -11,6 +11,8 @@ public class Proyectog extends JFrame {
     private JPanel pConsultaEmpleados;
     private JPanel pRegistroProducto;
     private JPanel pConsultaProductos;
+    private JPanel pReguistroClientes;
+    private JPanel pConsultaClientes;
     private JPanel pVentaCaja;
     private JPanel pVentaCorte;
     private JTextField nombre, id, rfc, direccion, num, textContraseña, tipo;
@@ -69,6 +71,14 @@ public class Proyectog extends JFrame {
         pVentaCorte.setSize(600, 400);
         pVentaCorte.setLayout(null);
 
+        pReguistroClientes = new JPanel();
+        pReguistroClientes.setSize(600, 400);
+        pReguistroClientes.setLayout(null);
+
+        pConsultaClientes = new JPanel();
+        pConsultaClientes.setSize(600, 400);
+        pConsultaClientes.setLayout(null);
+
         // MENU SUPERIOR
         // Creando items
         JMenuBar menuPrincipal = new JMenuBar();
@@ -90,6 +100,13 @@ public class Proyectog extends JFrame {
         JMenu Mventas = new JMenu("Ventas");
         JMenuItem v1_Caja = new JMenuItem("Caja");
         JMenuItem v2_VentasDia = new JMenuItem("Ventas del dia");
+
+        JMenu Mclientes = new JMenu("Clientes");
+        JMenuItem c1_Agregar = new JMenuItem("Agregar");
+        JMenuItem c2_Modificar = new JMenuItem("Modificar");
+        JMenuItem c3_ConsultaGen = new JMenuItem("Consulta general");
+        JMenuItem c4_ConsultaID = new JMenuItem("Consulta por ID");
+        JMenuItem c5_Eliminar = new JMenuItem("Eliminar");
         // Añadiendo menu superior
         Mempleados.add(emp1_Agregar);
         Mempleados.add(emp2_Modificar);
@@ -103,9 +120,16 @@ public class Proyectog extends JFrame {
         Mproductos.add(pr4_ConsultaID);
         Mproductos.add(pr5_Eliminar);
 
+        Mclientes.add(c1_Agregar);
+        Mclientes.add(c2_Modificar);
+        Mclientes.add(c3_ConsultaGen);
+        Mclientes.add(c4_ConsultaID);
+        Mclientes.add(c5_Eliminar);
+
         Mventas.add(v1_Caja);
         Mventas.add(v2_VentasDia);
 
+        menuPrincipal.add(Mclientes);
         menuPrincipal.add(Mempleados);
         menuPrincipal.add(Mproductos);
         menuPrincipal.add(Mventas);
@@ -295,6 +319,96 @@ public class Proyectog extends JFrame {
         pConsultaProductos.add(bottomConsultaProductos);
         pConsultaProductos.add(consultaProductoID);
         pConsultaProductos.add(botonConsultaProductoID);
+
+        /////////////////////// Registro de Clientes
+        JLabel labelClienteId = new JLabel("ID");
+        labelClienteId.setBounds(10, 20, 80, 25);
+        pReguistroClientes.add(labelClienteId);
+
+        JTextField fieldClienteID = new JTextField(20);
+        fieldClienteID.setBounds(100, 20, 165, 25);
+        pReguistroClientes.add(fieldClienteID);
+
+        JLabel labelClienteNombre = new JLabel("Nombre");
+        labelClienteNombre.setBounds(10, 50, 80, 25);
+        pReguistroClientes.add(labelClienteNombre);
+
+        JTextField fieldClienteNombre = new JTextField(20);
+        fieldClienteNombre.setBounds(100, 50, 165, 25);
+        pReguistroClientes.add(fieldClienteNombre);
+
+        JLabel labelClienteTipo = new JLabel("Tipo");
+        labelClienteTipo.setBounds(10, 80, 80, 25);
+        pReguistroClientes.add(labelClienteTipo);
+
+        JTextField fieldClienteTipo = new JTextField(20);
+        fieldClienteTipo.setBounds(100, 80, 165, 25);
+        pReguistroClientes.add(fieldClienteTipo);
+
+        JLabel labelClienteDireccion = new JLabel("Direccion");
+        labelClienteDireccion.setBounds(10, 110, 80, 25);
+        pReguistroClientes.add(labelClienteDireccion);
+
+        JTextField fieldClienteDireccion = new JTextField(20);
+        fieldClienteDireccion.setBounds(100, 110, 165, 25);
+        pReguistroClientes.add(fieldClienteDireccion);
+
+        JLabel labelClienteTelefono = new JLabel("Telefono");
+        labelClienteTelefono.setBounds(10, 140, 80, 25);
+        pReguistroClientes.add(labelClienteTelefono);
+
+        JTextField fieldClienteTelefono = new JTextField(20);
+        fieldClienteTelefono.setBounds(100, 140, 165, 25);
+        pReguistroClientes.add(fieldClienteTelefono);
+
+        JButton botonAgregarCliente = new JButton("Agregar");
+        botonAgregarCliente.setBounds(10, 200, 80, 25);
+        pReguistroClientes.add(botonAgregarCliente);
+
+        JButton botonModificarCliente = new JButton("Modificar");
+        botonModificarCliente.setBounds(10, 200, 80, 25);
+        pReguistroClientes.add(botonModificarCliente);
+
+        JButton botonConsultaClientes = new JButton("Consultar");
+        botonConsultaClientes.setBounds(10, 200, 80, 25);
+        pReguistroClientes.add(botonConsultaClientes);
+
+        JButton botonEliminarCliente = new JButton("Eliminar");
+        botonEliminarCliente.setBounds(10, 50, 80, 25);
+        pReguistroClientes.add(botonEliminarCliente);
+
+        /////////////////////// Consulta de Clientes
+        // Encabezado
+        JLabel topConsultaClientes = new JLabel("Clientes");
+        topConsultaClientes.setBounds(10, 10, 80, 20);
+
+        DefaultTableModel templateClientes = new DefaultTableModel();
+        templateClientes.addColumn("ID");
+        templateClientes.addColumn("NOMBRE");
+        templateClientes.addColumn("TIPO");
+        templateClientes.addColumn("DIRECCION");
+        templateClientes.addColumn("TELEFONO");
+        JTable tablaClientes = new JTable(templateClientes);
+        JScrollPane scrollClientes = new JScrollPane(tablaClientes);
+        scrollClientes.setBounds(50, 35, 500, 260);
+
+        // Footer
+        JLabel bottomConsultaClientes = new JLabel("Cliente:");
+        bottomConsultaClientes.setBounds(10, 308, 80, 20);
+        pReguistroClientes.add(bottomConsultaClientes);
+
+        JTextField consultaClienteID = new JTextField(10);
+        consultaClienteID.setBounds(90, 310, 300, 20);
+
+        JButton botonConsultaClienteID = new JButton("Buscar");
+        botonConsultaClienteID.setBounds(400, 310, 80, 20);
+
+        // Agregandolo
+        pConsultaClientes.add(topConsultaClientes);
+        pConsultaClientes.add(scrollClientes);
+        pConsultaClientes.add(bottomConsultaClientes);
+        pConsultaClientes.add(consultaClienteID);
+        pConsultaClientes.add(botonConsultaClienteID);
 
         /////////////////////// Ventas - CAJA
         JLabel labelVentaID = new JLabel("ID:");
@@ -613,9 +727,152 @@ public class Proyectog extends JFrame {
                 pConsultaEmpleados.setVisible(false);
                 pRegistroProducto.setVisible(false);
                 pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(true);
             }
         });
+
+        c1_Agregar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                labelClienteDireccion.setVisible(true);
+                labelClienteId.setVisible(true);
+                labelClienteNombre.setVisible(true);
+                labelClienteTelefono.setVisible(true);
+                labelClienteTipo.setVisible(true);
+                fieldClienteDireccion.setVisible(true);
+                fieldClienteID.setVisible(true);
+                fieldClienteNombre.setVisible(true);
+                fieldClienteTelefono.setVisible(true);
+                fieldClienteTipo.setVisible(true);
+
+                botonAgregarCliente.setVisible(true);
+                botonModificarCliente.setVisible(false);
+                botonEliminarCliente.setVisible(false);
+                botonConsultaClientes.setVisible(false);
+                bottomConsultaClientes.setVisible(false);
+                consultaClienteID.setVisible(false);
+                botonConsultaClienteID.setVisible(false);
+
+                pRegistroEmpleado.setVisible(false);
+                pConsultaEmpleados.setVisible(false);
+                pRegistroProducto.setVisible(false);
+                pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
+                pVentaCorte.setVisible(false);
+                pReguistroClientes.setVisible(true);
+                pConsultaClientes.setVisible(false);
+            }
+        });
+
+        c2_Modificar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                labelClienteDireccion.setVisible(true);
+                labelClienteId.setVisible(true);
+                labelClienteNombre.setVisible(true);
+                labelClienteTelefono.setVisible(true);
+                labelClienteTipo.setVisible(true);
+                fieldClienteDireccion.setVisible(true);
+                fieldClienteID.setVisible(true);
+                fieldClienteNombre.setVisible(true);
+                fieldClienteTelefono.setVisible(true);
+                fieldClienteTipo.setVisible(true);
+
+                botonAgregarCliente.setVisible(false);
+                botonModificarCliente.setVisible(true);
+                botonEliminarCliente.setVisible(false);
+                botonConsultaClientes.setVisible(false);
+                bottomConsultaClientes.setVisible(false);
+                consultaClienteID.setVisible(false);
+                botonConsultaClienteID.setVisible(false);
+
+                pRegistroEmpleado.setVisible(false);
+                pConsultaEmpleados.setVisible(false);
+                pRegistroProducto.setVisible(false);
+                pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
+                pVentaCorte.setVisible(false);
+                pReguistroClientes.setVisible(true);
+                pConsultaClientes.setVisible(false);
+            }
+        });
+
+        c3_ConsultaGen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                botonConsultaClientes.setVisible(false);
+                bottomConsultaClientes.setVisible(false);
+                consultaClienteID.setVisible(false);
+                botonConsultaClienteID.setVisible(false);
+
+                pRegistroEmpleado.setVisible(false);
+                pConsultaEmpleados.setVisible(false);
+                pRegistroProducto.setVisible(false);
+                pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
+                pVentaCorte.setVisible(false);
+                pReguistroClientes.setVisible(false);
+                pConsultaClientes.setVisible(true);
+
+                templateClientes.setRowCount(0);
+                for (cliente tempCliente : listaClientes) {
+                    templateClientes
+                            .addRow(new Object[] { tempCliente.getId(), tempCliente.getNom(), tempCliente.getTipo(),
+                                    tempCliente.getDir(), tempCliente.getNum() });
+                }
+            }
+        });
+
+        c4_ConsultaID.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                botonConsultaClientes.setVisible(true);
+                bottomConsultaClientes.setVisible(true);
+                consultaClienteID.setVisible(true);
+                botonConsultaClienteID.setVisible(true);
+
+                pRegistroEmpleado.setVisible(false);
+                pConsultaEmpleados.setVisible(false);
+                pRegistroProducto.setVisible(false);
+                pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
+                pVentaCorte.setVisible(false);
+                pReguistroClientes.setVisible(false);
+                pConsultaClientes.setVisible(true);
+
+                templateClientes.setRowCount(0);
+            }
+        });
+
+        c5_Eliminar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                labelClienteDireccion.setVisible(false);
+                labelClienteId.setVisible(false);
+                labelClienteNombre.setVisible(false);
+                labelClienteTelefono.setVisible(false);
+                labelClienteTipo.setVisible(false);
+                fieldClienteDireccion.setVisible(false);
+                fieldClienteID.setVisible(false);
+                fieldClienteNombre.setVisible(false);
+                fieldClienteTelefono.setVisible(false);
+                fieldClienteTipo.setVisible(false);
+
+                botonAgregarCliente.setVisible(false);
+                botonModificarCliente.setVisible(false);
+                botonEliminarCliente.setVisible(true);
+                botonConsultaClientes.setVisible(false);
+                bottomConsultaClientes.setVisible(false);
+                consultaClienteID.setVisible(false);
+                botonConsultaClienteID.setVisible(false);
+
+                pRegistroEmpleado.setVisible(false);
+                pConsultaEmpleados.setVisible(false);
+                pRegistroProducto.setVisible(false);
+                pConsultaProductos.setVisible(false);
+                pVentaCaja.setVisible(false);
+                pVentaCorte.setVisible(false);
+                pReguistroClientes.setVisible(true);
+                pConsultaClientes.setVisible(false);
+            }
+        });
+
         ////////////////////////////////////// ACIONES DE BOTONES
         botonAgregarEmp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -842,7 +1099,6 @@ public class Proyectog extends JFrame {
 
         botonAgregarArticulo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // templateVentas.setRowCount(0);
                 boolean encontrado = false;
                 for (producto tempProducto : listaProductos) {
                     if (tempProducto.getId().equals(fieldVentaID.getText())) {
@@ -873,13 +1129,43 @@ public class Proyectog extends JFrame {
                 fieldVentaCaja.setText("");
                 fieldVentaCantidad.setText("");
                 fieldVentaID.setText("");
-                
+                // TODO
             }
         });
 
         botonVender.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 // TODO
+
+            }
+        });
+
+        // TODO: botonAgregarCliente
+        botonAgregarCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Code for adding a new client
+            }
+        });
+
+        // TODO: botonModificarCliente
+        botonModificarCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Code for modifying an existing client
+            }
+        });
+
+        // TODO: botonEliminarCliente
+        botonEliminarCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Code for deleting an existing client
+            }
+        });
+
+        // TODO: botonConsultaClientes
+        botonConsultaClientes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Code for querying clients
             }
         });
 
@@ -903,6 +1189,7 @@ public class Proyectog extends JFrame {
         add(pConsultaProductos);
         add(pVentaCaja);
         add(pVentaCorte);
+        add(pReguistroClientes);
 
         // INVISIBLES
         pRegistroEmpleado.setVisible(false);
@@ -912,6 +1199,7 @@ public class Proyectog extends JFrame {
         pConsultaProductos.setVisible(false);
         pVentaCaja.setVisible(false);
         pVentaCorte.setVisible(false);
+        pReguistroClientes.setVisible(false);
 
     }
 }
