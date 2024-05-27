@@ -77,7 +77,7 @@ public class creadorArchivos {
     }
 
     public void escribirArchivoVentas(ArrayList<ventas> venta) {
-        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Empleados.txt"))) {
+        try (ObjectOutputStream escribir = new ObjectOutputStream(new FileOutputStream("Ventas.txt"))) {
             escribir.writeObject(venta);
             escribir.close();
             System.out.println("Datos guardados correctamente");

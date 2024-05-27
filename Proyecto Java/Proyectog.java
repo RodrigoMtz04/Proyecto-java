@@ -18,8 +18,10 @@ public class Proyectog extends JFrame {
     private JTextField nombre, id, rfc, direccion, num, textContraseña, tipo;
     private ArrayList<empleado> listaEmpleados;
     private ArrayList<producto> listaProductos;
+    private ArrayList<producto> tempListaProductos;
     private ArrayList<cliente> listaClientes;
     private ArrayList<ventas> listaVentas;
+
     private creadorArchivos archivos;
     double totalVenta = 0;
 
@@ -44,6 +46,7 @@ public class Proyectog extends JFrame {
         // archivos.crearArchivoPersona(); Creo que este no se ocupaba
         listaEmpleados = archivos.leerArchivoEmpleados();
         listaProductos = archivos.leerArchivoProductos();
+        tempListaProductos = new ArrayList<>();
         listaClientes = archivos.leerArchivoClientes();
         listaVentas = archivos.leerArchivoVenats();
 
@@ -465,6 +468,16 @@ public class Proyectog extends JFrame {
 
         JButton botonVender = new JButton("Vender");
         botonVender.setBounds(280, 315, 80, 20);
+
+        JLabel labelVentaCliente = new JLabel("Cliente:");
+        labelVentaCliente.setBounds(140, 312, 80, 25);
+        pVentaCaja.add(labelVentaCliente);
+
+        JTextField fieldVentaCliente = new JTextField(20);
+        fieldVentaCliente.setBounds(210, 312, 50, 25);
+        pVentaCaja.add(fieldVentaCliente);
+
+
         pVentaCaja.add(botonVender);
         // Agregandolo
         pVentaCaja.add(scrollVentas);
@@ -480,7 +493,10 @@ public class Proyectog extends JFrame {
         DefaultTableModel templateVentaCorte = new DefaultTableModel();
         templateVentaCorte.addColumn("NO. VENTA");
         templateVentaCorte.addColumn("CAJA");
+        templateVentaCorte.addColumn("CLIENTE");
+        templateVentaCorte.addColumn("FRECUENCIA");
         templateVentaCorte.addColumn("TOTAL DE LA VENTA");
+
         JTable tablaVentaCorte = new JTable(templateVentaCorte);
         JScrollPane scrollVentaCorte = new JScrollPane(tablaVentaCorte);
         scrollVentaCorte.setBounds(50, 35, 500, 260);
@@ -722,6 +738,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(true);
                 pVentaCorte.setVisible(false);
+                tempListaProductos.clear();
             }
         });
 
@@ -733,6 +750,13 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(true);
+                
+                templateVentaCorte.setRowCount(0);
+                for (ventas tempVenta : listaVentas) {
+                    templateVentaCorte
+                            .addRow(new Object[] { listaVentas.indexOf(tempVenta) + 1, tempVenta.getCaja(), tempVenta.getNombreCliente(), tempVenta.getTipoFrecuencia(), tempVenta.getVentas() });
+
+                }
             }
         });
 
@@ -799,7 +823,7 @@ public class Proyectog extends JFrame {
                 pConsultaClientes.setVisible(false);
             }
         });
-//TODO: piche tabla
+
         c3_ConsultaGen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 botonConsultaClientes.setVisible(false);
@@ -848,12 +872,12 @@ public class Proyectog extends JFrame {
         c5_Eliminar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 labelClienteDireccion.setVisible(false);
-                labelClienteId.setVisible(false);
+                labelClienteId.setVisible(true);
                 labelClienteNombre.setVisible(false);
                 labelClienteTelefono.setVisible(false);
                 labelClienteTipo.setVisible(false);
                 fieldClienteDireccion.setVisible(false);
-                fieldClienteID.setVisible(false);
+                fieldClienteID.setVisible(true);
                 fieldClienteNombre.setVisible(false);
                 fieldClienteTelefono.setVisible(false);
                 fieldClienteTipo.setVisible(false);
@@ -1103,18 +1127,22 @@ public class Proyectog extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 boolean encontrado = false;
                 for (producto tempProducto : listaProductos) {
+
                     if (tempProducto.getId().equals(fieldVentaID.getText())) {
-                        if (tempProducto.getCantidad() > Integer.parseInt(fieldVentaCantidad.getText())) {
+                        if (tempProducto.getCantidad() >= Integer.parseInt(fieldVentaCantidad.getText()) && Integer.parseInt( fieldVentaCantidad.getText() ) > 0) {
 
                             templateVentas
                                     .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
                                             tempProducto.getPrecio(), fieldVentaCantidad.getText(),
-                                            tempProducto.getDescripcion() });
-                            totalVenta = totalVenta + tempProducto.getPrecio();
+                                            tempProducto.getDescripcion(), (tempProducto.getPrecio() * Double.parseDouble( fieldVentaCantidad.getText() )) });
+                            totalVenta = totalVenta + tempProducto.getPrecio() * Integer.parseInt( fieldVentaCantidad.getText() );
                             System.out.println(totalVenta);
                             bottomConsultaVentasTotal.setText(String.format("%.2f", totalVenta));
+
+                            tempListaProductos.add(new producto(tempProducto.getId(), tempProducto.getNombre(), tempProducto.getPrecio(), Integer.parseInt( fieldVentaCantidad.getText() ), tempProducto.getDescripcion()) );
+
                         } else {
-                            JOptionPane.showMessageDialog(null, "Cantidad del producto superior a la actual.",
+                            JOptionPane.showMessageDialog(null, "Cantidad del producto superior a la actual o cantidad invalida.",
                                     "No stock", JOptionPane.WARNING_MESSAGE);
                         }
                         encontrado = true;
@@ -1128,20 +1156,48 @@ public class Proyectog extends JFrame {
                     JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.",
                             "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
                 }
-                fieldVentaCaja.setText("");
+                //fieldVentaCaja.setText("");
                 fieldVentaCantidad.setText("");
                 fieldVentaID.setText("");
-                // TODO
             }
         });
 
         botonVender.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                boolean clienteEncontrado = false;
+                String clienteNombre = "";
+                String tipoFrecuencia = "";
+
+                for (cliente tempCliente : listaClientes) {
+                    if(tempCliente.getId().equals(fieldVentaCliente.getText())){ 
+                        clienteEncontrado = true; 
+                        clienteNombre = tempCliente.getNom();
+                        tipoFrecuencia = tempCliente.getTipo();
+                    }
+                }
+                if(clienteEncontrado){
+                    double totalPrecio = 0.0;
+                    for (producto tempProducto : tempListaProductos) {
+                        for (producto almacenado : listaProductos) {
+                            if( tempProducto.getId().equals(almacenado.getId()) ){
+                                almacenado.setCantidad( almacenado.getCantidad() - tempProducto.getCantidad() );
+                            }
+                        }
+                        totalPrecio += (tempProducto.getPrecio() * tempProducto.getCantidad());
+                    }
+                    listaVentas.add(
+                        new ventas(totalPrecio, fieldVentaCaja.getText(), clienteNombre, tipoFrecuencia) 
+                        );
+                    archivos.escribirArchivoProuctos(listaProductos);
+                    archivos.escribirArchivoVentas(listaVentas);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Este ID de cliente no existe.",
+                    "Cliente invalido", JOptionPane.WARNING_MESSAGE);
+                }
                 
             }
         });
 
-        // TODO: botonAgregarCliente
         botonAgregarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String comparado = fieldClienteID.getText();
@@ -1169,24 +1225,71 @@ public class Proyectog extends JFrame {
             }
         });
 
-        // TODO: botonModificarCliente
         botonModificarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Code for modifying an existing client
+                String comparado = fieldClienteID.getText();
+                boolean repetido = false;
+                for (cliente tempCliente : listaClientes) {
+                    if (tempCliente.getId().equals(comparado)) {
+                        repetido = true;
+                        tempCliente.setDireccion(fieldClienteDireccion.getText());
+                        tempCliente.setNombre(fieldClienteNombre.getText());
+                        tempCliente.setNumero(fieldClienteTelefono.getText());
+                        tempCliente.setTipo(fieldClienteTipo.getText());
+
+                        System.out.println(tempCliente.getId());
+                        break;
+                    }
+                }
+                if (repetido) {
+                    archivos.escribirArchivoClientes(listaClientes);
+                    JOptionPane.showMessageDialog(null, "Cliente modificado correctamente.",
+                            "Modificacion cliente", JOptionPane.WARNING_MESSAGE);
+                }
+                fieldClienteNombre.setText("");
+                fieldClienteDireccion.setText("");
+                fieldClienteTelefono.setText("");
+                fieldClienteTipo.setText("");
+                fieldClienteID.setText("");
             }
         });
 
-        // TODO: botonEliminarCliente
         botonEliminarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Code for deleting an existing client
+                String comparado = fieldClienteID.getText();
+                boolean repetido = false;
+                int posicion = -1;
+
+                for (cliente tempCliente : listaClientes) {
+                    if (tempCliente.getId().equals(comparado)) {
+                        repetido = true;
+                        posicion = listaClientes.indexOf(tempCliente);
+                        break;
+                    }
+                }
+                if (repetido) {
+                    listaClientes.remove(posicion);
+                    archivos.escribirArchivoClientes(listaClientes);
+                    JOptionPane.showMessageDialog(null, "Empleado eliminado correctamente.",
+                            "Empleado eliminado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontro a un empleado con este ID.",
+                            "Eliminacion fallida", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
-        // TODO: botonConsultaClientes
-        botonConsultaClientes.addActionListener(new ActionListener() {
+        botonConsultaClienteID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Code for querying clients
+                
+                templateClientes.setRowCount(0);
+                for (cliente tempCliente : listaClientes) {
+                    if (tempCliente.getId().equals(consultaClienteID.getText())) {
+                        System.out.println("fjunciona");
+                        templateClientes.addRow(new Object[] { tempCliente.getId(), tempCliente.getNom(), tempCliente.getTipo(),
+                            tempCliente.getDir(), tempCliente.getNum() });
+                    }
+                }
             }
         });
 
