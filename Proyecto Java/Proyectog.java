@@ -1297,17 +1297,25 @@ public class Proyectog extends JFrame {
         botonAgregarArticulo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean encontrado = false;
+                int sumaTotal = 0;
+
+                for (producto p : tempListaProductos) {
+                    if(p.getId().equals( fieldVentaID.getText() ) ){ sumaTotal += p.getCantidad(); }
+                }
+                System.out.println(sumaTotal);
+
                 for (producto tempProducto : listaProductos) {
 
+
                     if (tempProducto.getId().equals(fieldVentaID.getText())) {
-                        if (tempProducto.getCantidad() >= Integer.parseInt(fieldVentaCantidad.getText()) && Integer.parseInt( fieldVentaCantidad.getText() ) > 0) {
+                        if ( (tempProducto.getCantidad() - sumaTotal) >= Integer.parseInt(fieldVentaCantidad.getText()) && Integer.parseInt( fieldVentaCantidad.getText() ) > 0) {
 
                             templateVentas
                                     .addRow(new Object[] { tempProducto.getId(), tempProducto.getNombre(),
                                             tempProducto.getPrecio(), fieldVentaCantidad.getText(),
                                             tempProducto.getDescripcion(), (tempProducto.getPrecio() * Double.parseDouble( fieldVentaCantidad.getText() )) });
                             totalVenta = totalVenta + tempProducto.getPrecio() * Integer.parseInt( fieldVentaCantidad.getText() );
-                            System.out.println(totalVenta);
+                            //System.out.println(totalVenta);
                             bottomConsultaVentasTotal.setText(String.format("%.2f", totalVenta));
 
                             tempListaProductos.add(new producto(tempProducto.getId(), tempProducto.getNombre(), tempProducto.getPrecio(), Integer.parseInt( fieldVentaCantidad.getText() ), tempProducto.getDescripcion()) );
@@ -1321,9 +1329,7 @@ public class Proyectog extends JFrame {
 
                 }
 
-                if (encontrado) {
-
-                } else {
+                if (!encontrado) {
                     JOptionPane.showMessageDialog(null, "Producto no encontrado, por favor ingrese otro.",
                             "Producto no encontrado", JOptionPane.WARNING_MESSAGE);
                 }
