@@ -16,6 +16,7 @@ public class Proyectog extends JFrame {
     private JPanel pVentaCaja;
     private JPanel pVentaCorte;
     private JPanel pContraseniaAdmin;
+    private JPanel pContraseniaCaja;
     private JTextField nombre, id, rfc, direccion, num, textContraseña;
     private ArrayList<empleado> listaEmpleados;
     private ArrayList<producto> listaProductos;
@@ -25,6 +26,8 @@ public class Proyectog extends JFrame {
 
     private creadorArchivos archivos;
     double totalVenta = 0;
+
+    public boolean accedioCaja = false;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Proyectog());
@@ -54,6 +57,10 @@ public class Proyectog extends JFrame {
         pContraseniaAdmin = new JPanel();
         pContraseniaAdmin.setSize(600, 400);
         pContraseniaAdmin.setLayout(null);
+
+        pContraseniaCaja = new JPanel();
+        pContraseniaCaja.setSize(600, 400);
+        pContraseniaCaja.setLayout(null);
 
         pRegistroEmpleado = new JPanel();
         pRegistroEmpleado.setSize(600, 400);
@@ -156,6 +163,25 @@ public class Proyectog extends JFrame {
         botonContraseniaAdmin.setBounds(100, 75, 165, 25);
         pContraseniaAdmin.add(botonContraseniaAdmin);
         //Hubiera sido una buena idea usar constantes para las dimensiones y posiciones :,v
+        ////////////////////////// Contrasenia caja
+        JLabel labelContraseniaCajaEmpleadoID = new JLabel("ID de empleado:");
+        labelContraseniaCajaEmpleadoID.setBounds(10, 20, 80, 25);
+        pContraseniaCaja.add(labelContraseniaCajaEmpleadoID);
+        JTextField fieldContraseniaCajaEmpleadoID = new JTextField(20);
+        fieldContraseniaCajaEmpleadoID.setBounds(100, 20, 165, 25);
+        pContraseniaCaja.add(fieldContraseniaCajaEmpleadoID);
+
+        JLabel labelContraseniaCaja = new JLabel("Contraseña:"); //LA CONTTRASEÑA DE LOS EMPLEADOS!!
+        labelContraseniaCaja.setBounds(10, 60, 80, 25);
+        pContraseniaCaja.add(labelContraseniaCaja);
+        JTextField fieldContraseniaCaja = new JTextField(20);
+        fieldContraseniaCaja.setBounds(100, 60, 165, 25);
+        pContraseniaCaja.add(fieldContraseniaCaja);
+        
+
+        JButton botonContraseniaCajaAcceder = new JButton("Acceder");
+        botonContraseniaCajaAcceder.setBounds(100, 100, 165, 25);
+        pContraseniaCaja.add(botonContraseniaCajaAcceder);
 
         /////////////////////// Registro de empleados
         JLabel idLabel = new JLabel("ID");
@@ -546,6 +572,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -572,6 +599,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -587,6 +615,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
 
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
 
@@ -610,6 +639,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
 
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
 
@@ -639,6 +669,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -664,6 +695,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -678,6 +710,7 @@ public class Proyectog extends JFrame {
                 fieldProductoDescripcion.setVisible(true);
                 fieldProductoPrecio.setVisible(true);
                 fieldProductoNombre.setVisible(true);
+                pContraseniaAdmin.setVisible(false);
 
                 botonAgregarProducto.setVisible(false);
                 botonModificarProducto.setVisible(true);
@@ -704,6 +737,7 @@ public class Proyectog extends JFrame {
                 pConsultaProductos.setVisible(true);
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
 
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
                 templateProductos.setRowCount(0);
@@ -728,6 +762,7 @@ public class Proyectog extends JFrame {
                 pRegistroProducto.setVisible(false);
                 pConsultaProductos.setVisible(true);
                 pVentaCaja.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 pVentaCorte.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
 
@@ -755,6 +790,7 @@ public class Proyectog extends JFrame {
                 pRegistroProducto.setVisible(true);
                 pConsultaProductos.setVisible(false);
                 pVentaCaja.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 pVentaCorte.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
@@ -766,10 +802,12 @@ public class Proyectog extends JFrame {
                 pConsultaEmpleados.setVisible(false);
                 pRegistroProducto.setVisible(false);
                 pConsultaProductos.setVisible(false);
-                pVentaCaja.setVisible(true);
                 pVentaCorte.setVisible(false);
                 tempListaProductos.clear();
                 pContraseniaAdmin.setVisible(false);
+
+                pVentaCaja.setVisible(accedioCaja);
+                pContraseniaCaja.setVisible(!accedioCaja);
             }
         });
 
@@ -782,6 +820,7 @@ public class Proyectog extends JFrame {
                 pVentaCaja.setVisible(false);
                 pVentaCorte.setVisible(true);
                 pContraseniaAdmin.setVisible(false);
+                
                 
                 templateVentaCorte.setRowCount(0);
                 for (ventas tempVenta : listaVentas) {
@@ -821,6 +860,7 @@ public class Proyectog extends JFrame {
                 pVentaCorte.setVisible(false);
                 pReguistroClientes.setVisible(true);
                 pConsultaClientes.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -854,6 +894,7 @@ public class Proyectog extends JFrame {
                 pVentaCorte.setVisible(false);
                 pReguistroClientes.setVisible(true);
                 pConsultaClientes.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -873,6 +914,7 @@ public class Proyectog extends JFrame {
                 pVentaCorte.setVisible(false);
                 pReguistroClientes.setVisible(false);
                 pConsultaClientes.setVisible(true);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
 
                 templateClientes.setRowCount(0);
@@ -899,6 +941,7 @@ public class Proyectog extends JFrame {
                 pVentaCorte.setVisible(false);
                 pReguistroClientes.setVisible(false);
                 pConsultaClientes.setVisible(true);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
 
                 templateClientes.setRowCount(0);
@@ -934,6 +977,7 @@ public class Proyectog extends JFrame {
                 pVentaCorte.setVisible(false);
                 pReguistroClientes.setVisible(true);
                 pConsultaClientes.setVisible(false);
+                pContraseniaAdmin.setVisible(false);
                 mostrarCosas(false, pContraseniaAdmin, labelContraseniaAdmin, fieldContraseniaAdmin);
             }
         });
@@ -1344,6 +1388,31 @@ public class Proyectog extends JFrame {
             }
         });
 
+        botonContraseniaCajaAcceder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                boolean validacion = false;
+
+                for(empleado tempEmpleado : listaEmpleados){
+                    if( tempEmpleado.getId().equals( fieldContraseniaCajaEmpleadoID.getText() ) ){
+                        if( tempEmpleado.getContraseña().equals( fieldContraseniaCaja.getText() ) ){
+                            validacion = true;
+                        }
+                    }
+                }
+
+                if(validacion){
+                    JOptionPane.showMessageDialog(null, "Accedio a la caja.",
+                    "Accedio a la caja", JOptionPane.INFORMATION_MESSAGE);
+                    accedioCaja = true;
+                    pVentaCaja.setVisible(true);
+                    pContraseniaCaja.setVisible(false);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Contraseña o ID de empleado equivocados. Algún empleado debe iniciar secion para acceder a la caja.",
+                    "Dato(s) incorrecto(s)", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         // PRINCIPAL
         setJMenuBar(menuPrincipal);
         setVisible(true);
@@ -1356,6 +1425,7 @@ public class Proyectog extends JFrame {
         add(pReguistroClientes);
         add(pConsultaClientes);
         add(pContraseniaAdmin);
+        add(pContraseniaCaja);
 
         // INVISIBLES
         pContraseniaAdmin.setVisible(true);
@@ -1364,6 +1434,7 @@ public class Proyectog extends JFrame {
         pRegistroProducto.setVisible(false);
         pConsultaProductos.setVisible(false);
         pConsultaProductos.setVisible(false);
+        pContraseniaCaja.setVisible(false);
         pVentaCaja.setVisible(false);
         pVentaCorte.setVisible(false);
         pReguistroClientes.setVisible(false);
